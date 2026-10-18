@@ -7,8 +7,8 @@ import {
   whatsappOrderUrl,
 } from '../data'
 import { useShop } from '../context/ShopContext'
-import { JerseyVisual } from '../components/JerseyVisual'
 import { ProductCard } from '../components/ProductCard'
+import { ProductImage } from '../components/ProductImage'
 import { IconHeart } from '../components/Icons'
 
 export function Product() {
@@ -17,11 +17,13 @@ export function Product() {
   const { addToCart, wishlist, toggleWishlist } = useShop()
   const [size, setSize] = useState('M')
   const [added, setAdded] = useState(false)
+  const [activeImg, setActiveImg] = useState(0)
 
   useEffect(() => {
     if (!product) return
     setSize(product.sizes.includes('M') ? 'M' : product.sizes[0])
     setAdded(false)
+    setActiveImg(0)
   }, [product?.id])
 
   if (!product) {
@@ -38,7 +40,10 @@ export function Product() {
   }
 
   const loved = wishlist.includes(product.id)
-  const related = products.filter((p) => p.id !== product.id && p.collection === product.collection).slice(0, 3)
+  const gallery = product.gallery?.length ? product.gallery : [product.image]
+  const related = products
+    .filter((p) => p.id !== product.id && p.collection === product.collection)
+    .slice(0, 3)
 
   const onAdd = () => {
     addToCart(product.id, size)
@@ -49,13 +54,33 @@ export function Product() {
   return (
     <div className="page product-page">
       <div className="pdp">
-        <div className={`pdp__visual pdp__visual--${product.theme}`}>
-          {product.badge && <span className="pcard__badge">{product.badge}</span>}
-          <JerseyVisual
-            theme={product.theme}
-            crop={product.collection === 'crop'}
-            className="jersey-visual jersey-visual--pdp"
-          />
+        <div className="pdp__gallery">
+          <div className={`pdp__visual pdp__visual--photo pdp__visual--${product.theme}`}>
+            {product.badge && <span className="pcard__badge">{product.badge}</span>}
+            <ProductImage
+              src={gallery[activeImg]}
+              alt={`${product.name} ${product.color}`}
+              className="pdp__img"
+              priority
+              sizes="(max-width: 900px) 100vw, 50vw"
+            />
+          </div>
+          {gallery.length > 1 && (
+            <div className="pdp__thumbs" role="list">
+              {gallery.map((src, i) => (
+                <button
+                  key={src}
+                  type="button"
+                  role="listitem"
+                  className={i === activeImg ? 'is-active' : ''}
+                  onClick={() => setActiveImg(i)}
+                  aria-label={`View photo ${i + 1}`}
+                >
+                  <ProductImage src={src} alt="" className="pdp__thumb-img" sizes="80px" />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="pdp__info">

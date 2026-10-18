@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { formatPrice, products } from '../data'
+import { collections, formatPrice, products } from '../data'
 import { ProductCard } from '../components/ProductCard'
-import { JerseyVisual } from '../components/JerseyVisual'
+import { ProductImage } from '../components/ProductImage'
 import { IconCheck, IconChevron } from '../components/Icons'
 
 const heroSlides = [
@@ -13,10 +13,10 @@ const heroSlides = [
     productLabel: 'Intore Black Kit 2026',
   },
   {
-    id: 'intore-white',
-    eyebrow: '2026 Match Drop',
-    title: 'Own the streets.',
-    productLabel: 'Intore White Kit 2026',
+    id: 'pride-navy',
+    eyebrow: 'Pride Colors',
+    title: 'Own the game.',
+    productLabel: 'Rwanda Iziza Navy',
   },
   {
     id: 'intore-crop',
@@ -44,7 +44,13 @@ export function Home() {
     <>
       <section className="hero-kit">
         <div className="hero-kit__bg" aria-hidden>
-          <img src="/images/lookbook-grid.jpg" alt="" />
+          <ProductImage
+            src={heroProduct.image}
+            alt=""
+            className="hero-kit__bg-img"
+            priority={slide === 0}
+            sizes="100vw"
+          />
           <div className="hero-kit__wash" />
         </div>
 
@@ -79,13 +85,18 @@ export function Home() {
             {heroProduct.badge && (
               <span className="hero-kit__pill">{heroProduct.badge}</span>
             )}
-            <div className={`hero-kit__jersey hero-kit__jersey--${heroProduct.theme}`}>
-              <JerseyVisual
-                theme={heroProduct.theme}
-                crop={heroProduct.collection === 'crop'}
-                className="jersey-visual jersey-visual--hero"
+            <Link
+              to={`/product/${heroProduct.id}`}
+              className="hero-kit__photo-wrap"
+            >
+              <ProductImage
+                src={heroProduct.image}
+                alt={`${heroProduct.name} ${heroProduct.color}`}
+                className="hero-kit__photo"
+                priority
+                sizes="(max-width: 900px) 80vw, 420px"
               />
-            </div>
+            </Link>
             <div className="hero-kit__price">
               <span className="hero-kit__price-line" />
               <span className="hero-kit__price-tag">
@@ -109,6 +120,29 @@ export function Home() {
         </div>
       </section>
 
+      <section className="home-collections">
+        <div className="featured__head">
+          <h2>Shop by collection</h2>
+          <Link to="/collections" className="home-collections__all">
+            View all →
+          </Link>
+        </div>
+        <div className="home-collections__grid">
+          {collections.map((c, i) => (
+            <Link key={c.id} to={`/collections/${c.id}`} className="home-col">
+              <ProductImage
+                src={c.image}
+                alt={c.name}
+                className="home-col__img"
+                priority={i === 0}
+                sizes="(max-width: 700px) 50vw, 25vw"
+              />
+              <span className="home-col__label">{c.name}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       <section className="featured">
         <div className="featured__head">
           <h2>Featured kits</h2>
@@ -122,9 +156,9 @@ export function Home() {
           </div>
         </div>
         <div className="featured__rail" ref={railRef}>
-          {featured.map((p) => (
+          {featured.map((p, i) => (
             <div key={p.id} className="featured__item">
-              <ProductCard product={p} />
+              <ProductCard product={p} priority={i < 2} />
             </div>
           ))}
         </div>
@@ -142,9 +176,10 @@ export function Home() {
           </Link>
         </div>
         <figure className="promo__media">
-          <img
-            src="/images/lookbook-grid.jpg"
-            alt="Community wearing IMENA Brand Rwanda jerseys"
+          <ProductImage
+            src="/images/products/collection-trio.jpg"
+            alt="IMENA Brand Rwanda jersey collection on display"
+            sizes="(max-width: 900px) 100vw, 50vw"
           />
         </figure>
       </section>

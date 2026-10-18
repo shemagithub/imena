@@ -41,8 +41,12 @@ export function Heritage() {
         </div>
         <figure className="heritage-media">
           <img
-            src="/images/lookbook-grid.jpg"
+            src="/images/products/lookbook-duo-bw.jpg"
             alt="IMENA Brand community lookbook"
+            loading="lazy"
+            decoding="async"
+            width="1000"
+            height="1250"
           />
         </figure>
       </div>
@@ -52,8 +56,12 @@ export function Heritage() {
         <p>Street, studio, and hills — how IMENA moves with Rwanda.</p>
         <figure>
           <img
-            src="/images/instagram-profile.jpg"
-            alt="IMENA Brand Instagram profile and jersey photography"
+            src="/images/products/collection-trio.jpg"
+            alt="IMENA Brand jersey collection on display"
+            loading="lazy"
+            decoding="async"
+            width="1000"
+            height="1250"
           />
         </figure>
       </section>

@@ -31,19 +31,16 @@ export function Layout() {
   return (
     <div className="site">
       <div className="announce">
-        <span>New season</span>
-        <span className="announce__dot" />
-        <span>Free delivery in Kigali over 50,000 RWF</span>
-        <span className="announce__dot" />
-        <span>Authentic IMENA prints only</span>
+        <p className="announce__track">
+          <span>New season</span>
+          <span className="announce__dot" aria-hidden />
+          <span className="announce__hide-sm">Free delivery in Kigali over 50,000 RWF</span>
+          <span className="announce__dot announce__hide-sm" aria-hidden />
+          <span>Authentic IMENA prints only</span>
+        </p>
       </div>
 
       <header className="nav">
-        <Link to="/" className="nav__brand" onClick={() => setMenuOpen(false)}>
-          <span className="nav__mark">IM</span>
-          <span>IMENA</span>
-        </Link>
-
         <button
           type="button"
           className={`nav__burger ${menuOpen ? 'is-open' : ''}`}
@@ -56,16 +53,17 @@ export function Layout() {
           <span />
         </button>
 
-        <nav className={`nav__center ${menuOpen ? 'is-open' : ''}`}>
+        <Link to="/" className="nav__brand" onClick={() => setMenuOpen(false)}>
+          <span className="nav__mark">IM</span>
+          <span className="nav__word">IMENA</span>
+        </Link>
+
+        <nav className={`nav__center ${menuOpen ? 'is-open' : ''}`} aria-label="Main">
           <NavLink to="/shop" className={navClass} onClick={() => setMenuOpen(false)}>
             Shop
           </NavLink>
 
-          <div
-            className={`nav__dropdown ${collectionsOpen ? 'is-open' : ''}`}
-            onMouseEnter={() => setCollectionsOpen(true)}
-            onMouseLeave={() => setCollectionsOpen(false)}
-          >
+          <div className={`nav__dropdown ${collectionsOpen ? 'is-open' : ''}`}>
             <button
               type="button"
               className="nav__link nav__link--btn"
@@ -118,11 +116,15 @@ export function Layout() {
             href={whatsappGeneralUrl()}
             target="_blank"
             rel="noreferrer"
-            aria-label="Order account / WhatsApp"
+            aria-label="WhatsApp"
           >
             <IconUser />
           </a>
-          <Link to="/shop?wishlist=1" className="icon-btn nav__util-hide" aria-label={`Wishlist, ${wishlist.length} items`}>
+          <Link
+            to="/shop?wishlist=1"
+            className="icon-btn nav__util-hide"
+            aria-label={`Wishlist, ${wishlist.length} items`}
+          >
             <IconHeart filled={wishlist.length > 0} />
           </Link>
           <button
@@ -136,6 +138,15 @@ export function Layout() {
           </button>
         </div>
       </header>
+
+      {menuOpen && (
+        <button
+          type="button"
+          className="nav__scrim"
+          aria-label="Close menu"
+          onClick={() => setMenuOpen(false)}
+        />
+      )}
 
       <main>
         <Outlet />
@@ -151,7 +162,7 @@ export function Layout() {
             <p className="footer__label">Shop</p>
             <Link to="/shop">All kits</Link>
             <Link to="/collections/intore">Intore jerseys</Link>
-            <Link to="/collections/crop">Crop collection</Link>
+            <Link to="/collections/pride">Pride colors</Link>
           </div>
           <div>
             <p className="footer__label">Brand</p>

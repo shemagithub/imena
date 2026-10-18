@@ -1,6 +1,6 @@
 import { formatPrice, whatsappCartUrl } from '../data'
 import { useShop } from '../context/ShopContext'
-import { JerseyVisual } from './JerseyVisual'
+import { ProductImage } from './ProductImage'
 import { IconClose } from './Icons'
 
 export function CartDrawer() {
@@ -42,8 +42,13 @@ export function CartDrawer() {
             <ul className="drawer__list">
               {cartProducts.map(({ item, product }) => (
                 <li key={item.key} className="drawer__item">
-                  <div className={`drawer__thumb drawer__thumb--${product.theme}`}>
-                    <JerseyVisual theme={product.theme} crop={product.collection === 'crop'} />
+                  <div className="drawer__thumb drawer__thumb--photo">
+                    <ProductImage
+                      src={product.image}
+                      alt=""
+                      className="drawer__thumb-img"
+                      sizes="72px"
+                    />
                   </div>
                   <div className="drawer__info">
                     <p className="drawer__name">

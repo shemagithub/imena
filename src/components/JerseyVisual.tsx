@@ -11,6 +11,8 @@ const palette = {
   black: { body: '#121212', ink: '#F2F2EE', trim: '#E8E8E2' },
   white: { body: '#F7F7F4', ink: '#111111', trim: '#1A1A1A' },
   cream: { body: '#E8E0D2', ink: '#1A1A1A', trim: '#2A2A2A' },
+  navy: { body: '#0B1F3A', ink: '#FFD200', trim: '#7EB6E8' },
+  yellow: { body: '#F5C400', ink: '#1B4D2E', trim: '#E87A20' },
 }
 
 export function JerseyVisual({ theme, crop = false, className }: Props) {

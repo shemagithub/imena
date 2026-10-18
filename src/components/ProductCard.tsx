@@ -1,21 +1,21 @@
 import { Link } from 'react-router-dom'
 import { formatPrice, type Product } from '../data'
 import { useShop } from '../context/ShopContext'
-import { JerseyVisual } from './JerseyVisual'
+import { ProductImage } from './ProductImage'
 import { IconHeart } from './Icons'
 
 type Props = {
   product: Product
-  showCrest?: boolean
+  priority?: boolean
 }
 
-export function ProductCard({ product, showCrest = true }: Props) {
+export function ProductCard({ product, priority = false }: Props) {
   const { wishlist, toggleWishlist } = useShop()
   const loved = wishlist.includes(product.id)
 
   return (
     <article className="pcard">
-      <div className={`pcard__media pcard__media--${product.theme}`}>
+      <div className={`pcard__media pcard__media--photo pcard__media--${product.theme}`}>
         <button
           type="button"
           className={`pcard__wish ${loved ? 'is-active' : ''}`}
@@ -26,13 +26,13 @@ export function ProductCard({ product, showCrest = true }: Props) {
         </button>
         {product.badge && <span className="pcard__badge">{product.badge}</span>}
         <Link to={`/product/${product.id}`} className="pcard__link-visual">
-          <JerseyVisual theme={product.theme} crop={product.collection === 'crop'} />
+          <ProductImage
+            src={product.image}
+            alt={`${product.name} ${product.color}`}
+            className="pcard__img"
+            priority={priority}
+          />
         </Link>
-        {showCrest && (
-          <span className="pcard__crest" aria-hidden>
-            IM
-          </span>
-        )}
       </div>
       <div className="pcard__body">
         <Link to={`/product/${product.id}`} className="pcard__title">
